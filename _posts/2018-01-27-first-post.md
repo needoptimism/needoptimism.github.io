@@ -52,7 +52,7 @@ You can now see that this mock iterable can be used in `for` loop, and turned in
 
 ### Then, "What is iterator?"
 
-We have just found out that as a result of passing `iterable` to `iter()` function generates `iterator`.
+We have just found out that as a result of passing `iterable` to `iter()` function `iterator` is generated.
 
 Then, how does `iterator` look like? How we can iterate over different iterators?
 There is a specific protocol for iterator, which is as follows:

@@ -9,7 +9,7 @@ comments: true
 While reading documents in Python, it's common to see the terms like `iterable`, `iterator`, and `generator`.
 Unfortunately, however, I have not tried to understand these confusing concepts clearly so far, so let me try to make these concepts clear in this post. (But, in order to avoid putting too many contents in this post, I will cover `generator` in the next post.)
 
-### Let's start with the question: "What is iterable?" 
+### "What is iterable?"
 
 - It is an object that is able to return its members one at a time.
 - Then, how we could make it available to return members of a certain object one at a time?

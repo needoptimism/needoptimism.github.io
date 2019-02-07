@@ -6,7 +6,7 @@
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
     <pubDate>2019-02-07</pubDate>
-    <lastBuildDate>Thu, 07 Feb 2019 02:31:08 +0900</lastBuildDate>
+    <lastBuildDate>Thu, 07 Feb 2019 14:16:43 +0900</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
     
       <item>
@@ -14,7 +14,7 @@
         <description>&lt;p&gt;While reading documents in Python, it’s common to see the terms like &lt;code class=&quot;highlighter-rouge&quot;&gt;iterable&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator&lt;/code&gt;, and &lt;code class=&quot;highlighter-rouge&quot;&gt;generator&lt;/code&gt;.
 Unfortunately, however, I have not tried to understand these confusing concepts clearly so far, so let me try to make these concepts clear in this post. (But, in order to avoid putting too many contents in this post, I will cover &lt;code class=&quot;highlighter-rouge&quot;&gt;generator&lt;/code&gt; in the next post.)&lt;/p&gt;
 
-&lt;h3 id=&quot;lets-start-with-the-question-what-is-iterable&quot;&gt;Let’s start with the question: “What is iterable?”&lt;/h3&gt;
+&lt;h3 id=&quot;what-is-iterable&quot;&gt;“What is iterable?”&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;It is an object that is able to return its members one at a time.&lt;/li&gt;

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="In this post, I would like to cover what python generator is.Before diving in more deeply, defining what “generator” is necessary, because the term “generato...">
+  <meta name="keywords" content="blog and jekyll">
+  <meta name="author" content="Python Generator | needoptimism">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f5f5">
+
+  <!-- Twitter Tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Python Generator | needoptimism">
+  <meta name="twitter:description" content="In this post, I would like to cover what python generator is.Before diving in more deeply, defining what “generator” is necessary, because the term “generato...">
+  
+    <meta property="twitter:image" content="http://localhost:4000/img/leonids-logo.png">
+  
+
+  <!-- Open Graph Tags -->
+  <meta property="og:type" content="blog">
+  <meta property="og:url" content="http://localhost:4000/articles/2019-02/python-generator">
+  <meta property="og:title" content="Python Generator | needoptimism">
+  <meta property="og:description" content="In this post, I would like to cover what python generator is.Before diving in more deeply, defining what “generator” is necessary, because the term “generato...">
+  
+    <meta property="og:image" content="http://localhost:4000/img/leonids-logo.png">
+  
+  <title>Python Generator | needoptimism</title>
+
+  <!-- CSS files -->
+  <link rel="stylesheet" href="http://localhost:4000/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://localhost:4000/css/main.css">
+
+  <link rel="canonical" href="http://localhost:4000/articles/2019-02/python-generator">
+  <link rel="alternate" type="application/rss+xml" title="needoptimism" href="http://localhost:4000/feed.xml" />
+
+  <!-- Icons -->
+  <!-- 16x16 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+  <!-- 32x32 -->
+  <link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+</head>
+
+
+<body>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="table cover">
+        
+
+<div class="cover-card table-cell table-middle">
+  
+  <a href="http://localhost:4000/">
+    <img src="http://localhost:4000/img/photo.jpeg" alt="" class="avatar">
+  </a>
+  
+  <a href="http://localhost:4000/" class="author_name">needoptimism</a>
+  <span class="author_job">A Python software engineer</span>
+  <span class="author_bio mbm">How do you eat elephant? One bite at a time.</span>
+  <nav class="nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a href="http://localhost:4000/">home</a>
+      </li>
+       
+      <li class="nav-item">
+        <a href="http://localhost:4000/archive/">Archive</a>
+      </li>
+          
+      <li class="nav-item">
+        <a href="http://localhost:4000/categories/">Categories</a>
+      </li>
+            
+      <li class="nav-item">
+        <a href="http://localhost:4000/resume/">Resume</a>
+      </li>
+        
+      <li class="nav-item">
+        <a href="http://localhost:4000/tags/">Tags</a>
+      </li>
+         
+    </ul>
+  </nav>
+  <script type="text/javascript">
+  // based on http://stackoverflow.com/a/10300743/280842
+  function gen_mail_to_link(hs, subject) {
+    var lhs,rhs;
+    var p = hs.split('@');
+    lhs = p[0];
+    rhs = p[1];
+    document.write("<a class=\"social-link-item\" target=\"_blank\" href=\"mailto");
+    document.write(":" + lhs + "@");
+    document.write(rhs + "?subject=" + subject + "\"><i class=\"fa fa-fw fa-envelope\"></i><\/a>");
+  }
+</script>
+<div class="social-links">
+  <ul>
+    
+      <li>
+      <script>gen_mail_to_link('needoptimism@gmail.com', 'Hello from website');</script>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <li><a href="http://github.com/needoptimism" class="social-link-item" target="_blank"><i class="fa fa-fw fa-github"></i></a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </ul>
+</div>
+
+</div>
+
+      </div>
+    </div>
+    <div class="col s12 m9">
+      <div class="post-listing">
+        <a class="btn" href= "http://localhost:4000/" >
+  Home
+</a>
+
+
+
+<div id="post">
+  <header class="post-header">
+    <h1 title="Python Generator">Python Generator</h1>
+    <span class="post-meta">
+      <span class="post-date">
+        9 FEB 2019
+      </span>
+      •
+      <span class="read-time" title="Estimated read time">
+  
+  
+    3 mins read
+  
+</span>
+
+    </span>
+
+  </header>
+
+  <article class="post-content">
+    <p>In this post, I would like to cover what python generator is.
+Before diving in more deeply, defining what “generator” is necessary, because the term “generator” is used to mean both “a function that generates an iterator” and “resulting iterator”.
+Here, I would like to use the term <code class="highlighter-rouge">generator</code> to mean a function which returns a generator object and <code class="highlighter-rouge">generator iterator</code> to mean an object created by a generator. (This is the official way of distinguishing these two.)
+According to the distinction, the following code snippet shows an example of <code class="highlighter-rouge">generator</code>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generator_example</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span></code></pre></figure>
+
+<p>And, “gen_iterator” in the code snippet below should be <code class="highlighter-rouge">generator iterator</code>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">gen_iterator</span> <span class="o">=</span> <span class="n">generator_example</span><span class="p">()</span></code></pre></figure>
+
+<h3 id="what-is-generator">“What is generator?”</h3>
+
+<p>With the clear distinction above, generator is a function that generates an iterator.
+In the previous post, I explained that there is a protocol in iterator:</p>
+
+<p>1) <code class="highlighter-rouge">__next__()</code> should be implemented.</p>
+
+<p>2) At the end of a series, <code class="highlighter-rouge">StopIteration</code> should be raised.</p>
+
+<p>So, creating a custom iterator could be a cumbersome process.
+In this regard, <code class="highlighter-rouge">Generator</code> simplifies the creation of iterators. (much more convenient way of writing an iterator!)</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generator_example</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Example of an generator"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span></code></pre></figure>
+
+<p>Each time the <code class="highlighter-rouge">yield</code> statement is executed the function generates a new value.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; gen_example = generator_example()
+&gt;&gt;&gt; gen_example
+&lt;generator object generator_example at 0x10efecf00&gt;
+&gt;&gt;&gt; next(gen_example)
+Example of an generator
+0
+&gt;&gt;&gt; next(gen_example)
+1
+&gt;&gt;&gt; next(gen_example)
+2
+&gt;&gt;&gt; next(gen_example)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre></div></div>
+
+<p>What is notable here is that the function is not executed until the <code class="highlighter-rouge">next</code> method gets called. 
+When <code class="highlighter-rouge">next</code> method is called for the first time, the function starts executing until it reaches <code class="highlighter-rouge">yield</code> statement.</p>
+
+<p>The following example shows the interplay between <code class="highlighter-rouge">yield</code> and call to <code class="highlighter-rouge">next</code> method on generator iterator.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generator_example</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"before yield"</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">i</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"after yield"</span><span class="p">)</span></code></pre></figure>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; gen_example = generator_example()
+&gt;&gt;&gt; next(gen_example)
+before yield
+0
+&gt;&gt;&gt; next(gen_example)
+after yield
+before yield
+1
+&gt;&gt;&gt; next(gen_example)
+after yield
+before yield
+2
+&gt;&gt;&gt; next(gen_example)
+after yield
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre></div></div>
+
+<h3 id="generator-expressions">Generator Expressions</h3>
+
+<p>We can create a <code class="highlighter-rouge">generator iterator</code> with the following expression:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; gen_example = (i for i in range(5))
+&gt;&gt;&gt; gen_example
+&lt;generator object &lt;genexpr&gt; at 0x10ddbff00&gt;
+</code></pre></div></div>
+
+<p>The notable differences from list comprehensions are as follows:</p>
+<ul>
+  <li>It does not construct a list</li>
+  <li>Only useful purpose of it is iteration</li>
+  <li>Once consumed, it can’t be reused</li>
+</ul>
+
+<h3 id="generators-vs-iterators">Generators vs. Iterators</h3>
+
+<p>A <code class="highlighter-rouge">generator iterator</code> is different from <code class="highlighter-rouge">iterator</code> which is not created by <code class="highlighter-rouge">generator</code>.</p>
+
+<p>To be specific,</p>
+<ul>
+  <li>A generator is a one-time operation. You can iterate over the generated data once, but if you want to do it again, you have to call the generator function again.</li>
+  <li>This is different than a list (which you can iterate over as many times as you want)</li>
+</ul>
+
+<p>Here is the example:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; generator_iterator = (i for i in range(5))
+&gt;&gt;&gt; generator_iterator
+&lt;generator object &lt;genexpr&gt; at 0x10ddbfeb0&gt;
+&gt;&gt;&gt; sum(generator_iterator)
+10
+&gt;&gt;&gt; sum(generator_iterator)
+0
+</code></pre></div></div>
+
+<h4 id="references">References:</h4>
+<ul>
+  <li>https://docs.python.org/3/glossary.html</li>
+  <li>https://anandology.com/python-practice-book/iterators.html</li>
+  <li>http://www.dabeaz.com/generators/Generators.pdf</li>
+</ul>
+
+  </article>
+</div>
+
+<div class="share-buttons">
+  <h6>Share on: </h6>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=http://localhost:4000/articles/2019-02/python-generator" class="twitter btn" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/articles/2019-02/python-generator" class="facebook btn" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=http://localhost:4000/articles/2019-02/python-generator" class="google-plus btn" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+    <li>
+      <a href="https://news.ycombinator.com/submitlink?u=http://localhost:4000/articles/2019-02/python-generator" class="hacker-news btn" title="Share on Hacker News"><i class="fa fa-hacker-news"></i><span> Hacker News</span></a>
+    </li>
+    <li>
+      <a href="https://www.reddit.com/submit?url=http://localhost:4000/articles/2019-02/python-generator" class="reddit btn" title="Share on Reddit"><i class="fa fa-reddit"></i><span> Reddit</span></a>
+    </li>
+  </ul>
+</div><!-- end share-buttons -->
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'needoptimism';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+        <footer>
+  &copy; 2019 needoptimism. Powered by <a href="http://jekyllrb.com/">Jekyll</a>, <a href="http://github.com/renyuanz/leonids/">leonids theme</a> made with <i class="fa fa-heart heart-icon"></i>
+</footer>
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="http://localhost:4000/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="http://localhost:4000/js/main.js"></script>
+
+
+</body>
+</html>

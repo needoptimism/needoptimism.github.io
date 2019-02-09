@@ -5,9 +5,140 @@
     <description>Python, Infrastructure, DevOps...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>2019-02-07</pubDate>
-    <lastBuildDate>Thu, 07 Feb 2019 14:19:06 +0900</lastBuildDate>
+    <pubDate>2019-02-10</pubDate>
+    <lastBuildDate>Sun, 10 Feb 2019 01:08:35 +0900</lastBuildDate>
     <generator>Jekyll v3.7.4</generator>
+    
+      <item>
+        <title>Python Generator</title>
+        <description>&lt;p&gt;In this post, I would like to cover what python generator is.
+Before diving in more deeply, defining what “generator” is necessary, because the term “generator” is used to mean both “a function that generates an iterator” and “resulting iterator”.
+Here, I would like to use the term &lt;code class=&quot;highlighter-rouge&quot;&gt;generator&lt;/code&gt; to mean a function which returns a generator object and &lt;code class=&quot;highlighter-rouge&quot;&gt;generator iterator&lt;/code&gt; to mean an object created by a generator. (This is the official way of distinguishing these two.)
+According to the distinction, the following code snippet shows an example of &lt;code class=&quot;highlighter-rouge&quot;&gt;generator&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;generator_example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;And, “gen_iterator” in the code snippet below should be &lt;code class=&quot;highlighter-rouge&quot;&gt;generator iterator&lt;/code&gt;.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;n&quot;&gt;gen_iterator&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;generator_example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;what-is-generator&quot;&gt;“What is generator?”&lt;/h3&gt;
+
+&lt;p&gt;With the clear distinction above, generator is a function that generates an iterator.
+In the previous post, I explained that there is a protocol in iterator:&lt;/p&gt;
+
+&lt;p&gt;1) &lt;code class=&quot;highlighter-rouge&quot;&gt;__next__()&lt;/code&gt; should be implemented.&lt;/p&gt;
+
+&lt;p&gt;2) At the end of a series, &lt;code class=&quot;highlighter-rouge&quot;&gt;StopIteration&lt;/code&gt; should be raised.&lt;/p&gt;
+
+&lt;p&gt;So, creating a custom iterator could be a cumbersome process.
+In this regard, &lt;code class=&quot;highlighter-rouge&quot;&gt;Generator&lt;/code&gt; simplifies the creation of iterators. (much more convenient way of writing an iterator!)&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;generator_example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Example of an generator&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;Each time the &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt; statement is executed the function generates a new value.&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; gen_example = generator_example()
+&amp;gt;&amp;gt;&amp;gt; gen_example
+&amp;lt;generator object generator_example at 0x10efecf00&amp;gt;
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+Example of an generator
+0
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+1
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+2
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+Traceback (most recent call last):
+  File &quot;&amp;lt;stdin&amp;gt;&quot;, line 1, in &amp;lt;module&amp;gt;
+StopIteration
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;What is notable here is that the function is not executed until the &lt;code class=&quot;highlighter-rouge&quot;&gt;next&lt;/code&gt; method gets called. 
+When &lt;code class=&quot;highlighter-rouge&quot;&gt;next&lt;/code&gt; method is called for the first time, the function starts executing until it reaches &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt; statement.&lt;/p&gt;
+
+&lt;p&gt;The following example shows the interplay between &lt;code class=&quot;highlighter-rouge&quot;&gt;yield&lt;/code&gt; and call to &lt;code class=&quot;highlighter-rouge&quot;&gt;next&lt;/code&gt; method on generator iterator.&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-python&quot; data-lang=&quot;python&quot;&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;generator_example&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;range&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;before yield&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;yield&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;after yield&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; gen_example = generator_example()
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+before yield
+0
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+after yield
+before yield
+1
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+after yield
+before yield
+2
+&amp;gt;&amp;gt;&amp;gt; next(gen_example)
+after yield
+Traceback (most recent call last):
+  File &quot;&amp;lt;stdin&amp;gt;&quot;, line 1, in &amp;lt;module&amp;gt;
+StopIteration
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h3 id=&quot;generator-expressions&quot;&gt;Generator Expressions&lt;/h3&gt;
+
+&lt;p&gt;We can create a &lt;code class=&quot;highlighter-rouge&quot;&gt;generator iterator&lt;/code&gt; with the following expression:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; gen_example = (i for i in range(5))
+&amp;gt;&amp;gt;&amp;gt; gen_example
+&amp;lt;generator object &amp;lt;genexpr&amp;gt; at 0x10ddbff00&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The notable differences from list comprehensions are as follows:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;It does not construct a list&lt;/li&gt;
+  &lt;li&gt;Only useful purpose of it is iteration&lt;/li&gt;
+  &lt;li&gt;Once consumed, it can’t be reused&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;generators-vs-iterators&quot;&gt;Generators vs. Iterators&lt;/h3&gt;
+
+&lt;p&gt;A &lt;code class=&quot;highlighter-rouge&quot;&gt;generator iterator&lt;/code&gt; is different from &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator&lt;/code&gt; which is not created by &lt;code class=&quot;highlighter-rouge&quot;&gt;generator&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;To be specific,&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;A generator is a one-time operation. You can iterate over the generated data once, but if you want to do it again, you have to call the generator function again.&lt;/li&gt;
+  &lt;li&gt;This is different than a list (which you can iterate over as many times as you want)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Here is the example:&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;gt;&amp;gt;&amp;gt; generator_iterator = (i for i in range(5))
+&amp;gt;&amp;gt;&amp;gt; generator_iterator
+&amp;lt;generator object &amp;lt;genexpr&amp;gt; at 0x10ddbfeb0&amp;gt;
+&amp;gt;&amp;gt;&amp;gt; sum(generator_iterator)
+10
+&amp;gt;&amp;gt;&amp;gt; sum(generator_iterator)
+0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h4 id=&quot;references&quot;&gt;References:&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;https://docs.python.org/3/glossary.html&lt;/li&gt;
+  &lt;li&gt;https://anandology.com/python-practice-book/iterators.html&lt;/li&gt;
+  &lt;li&gt;http://www.dabeaz.com/generators/Generators.pdf&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>2019-02-10</pubDate>
+        <link>http://localhost:4000/articles/2019-02/python-generator</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-02/python-generator</guid>
+        
+        
+        <category>python</category>
+        
+      </item>
     
       <item>
         <title>Python Iterable &amp; Iterator</title>
@@ -55,9 +186,8 @@ Unfortunately, however, I have not tried to understand these confusing concepts 
 
 &lt;h3 id=&quot;then-what-is-iterator&quot;&gt;Then, “What is iterator?”&lt;/h3&gt;
 
-&lt;p&gt;We have just found out that as a result of passing &lt;code class=&quot;highlighter-rouge&quot;&gt;iterable&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;iter()&lt;/code&gt; function &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator&lt;/code&gt; is generated.&lt;/p&gt;
-
-&lt;p&gt;Then, how does &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator&lt;/code&gt; look like? How we can iterate over different iterators?
+&lt;p&gt;As we have seen so far, &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator&lt;/code&gt; is generated through passing &lt;code class=&quot;highlighter-rouge&quot;&gt;iterable&lt;/code&gt; to &lt;code class=&quot;highlighter-rouge&quot;&gt;iter()&lt;/code&gt; function.
+Then, what is the essence of &lt;code class=&quot;highlighter-rouge&quot;&gt;iterator&lt;/code&gt;? How we can iterate over different iterators?
 There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -110,9 +240,9 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
   &lt;li&gt;http://www.dabeaz.com/generators/Generators.pdf&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-        <pubDate>2019-02-07</pubDate>
-        <link>http://localhost:4000/articles/2018-02/first-post</link>
-        <guid isPermaLink="true">http://localhost:4000/articles/2018-02/first-post</guid>
+        <pubDate>2019-02-10</pubDate>
+        <link>http://localhost:4000/articles/2019-02/python-iterable-iterator</link>
+        <guid isPermaLink="true">http://localhost:4000/articles/2019-02/python-iterable-iterator</guid>
         
         
         <category>python</category>
@@ -138,7 +268,7 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
 &lt;p&gt;Check out the &lt;a href=&quot;http://jekyllrb.com&quot;&gt;Jekyll docs&lt;/a&gt; for more info on how to get the most out of Jekyll. File all bugs/feature requests at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Jekyll’s GitHub repo&lt;/a&gt;. If you have questions, you can ask them on &lt;a href=&quot;https://github.com/jekyll/jekyll-help&quot;&gt;Jekyll’s dedicated Help repository&lt;/a&gt;.&lt;/p&gt;
 
 </description>
-        <pubDate>2019-02-07</pubDate>
+        <pubDate>2019-02-10</pubDate>
         <link>http://localhost:4000/articles/2015-08/welcome-to-jekyll</link>
         <guid isPermaLink="true">http://localhost:4000/articles/2015-08/welcome-to-jekyll</guid>
         
@@ -247,7 +377,7 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2019-02-07</pubDate>
+        <pubDate>2019-02-10</pubDate>
         <link>http://localhost:4000/articles/2013-08/code-highlighting-post</link>
         <guid isPermaLink="true">http://localhost:4000/articles/2013-08/code-highlighting-post</guid>
         
@@ -266,7 +396,7 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
 
 &lt;p&gt;Some &lt;a href=&quot;http://renyuanz.github.io&quot;&gt;link&lt;/a&gt; can also be shown.&lt;/p&gt;
 </description>
-        <pubDate>2019-02-07</pubDate>
+        <pubDate>2019-02-10</pubDate>
         <link>http://localhost:4000/articles/2013-08/sample-link-post</link>
         <guid isPermaLink="true">http://localhost:4000/articles/2013-08/sample-link-post</guid>
         
@@ -326,7 +456,7 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
   &lt;/ol&gt;
 &lt;/div&gt;
 </description>
-        <pubDate>2019-02-07</pubDate>
+        <pubDate>2019-02-10</pubDate>
         <link>http://localhost:4000/articles/2013-05/readability-feature-post</link>
         <guid isPermaLink="true">http://localhost:4000/articles/2013-05/readability-feature-post</guid>
         
@@ -380,7 +510,7 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
 
 &lt;p&gt;Aliquip enim artisan dolor post-ironic. Pug tote bag Marfa, deserunt pour-over Portland wolf eu odio intelligentsia american apparel ugh ea. Sunt viral et, 3 wolf moon gastropub pug id. Id fashion axe est typewriter, mlkshk Portland art party aute brunch. Sint pork belly Cosby sweater, deep v mumblecore kitsch american apparel. Try-hard direct trade tumblr sint skateboard. Adipisicing bitters excepteur biodiesel, pickled gastropub aute veniam.&lt;/p&gt;
 </description>
-        <pubDate>2019-02-07</pubDate>
+        <pubDate>2019-02-10</pubDate>
         <link>http://localhost:4000/articles/2012-05/readability-post</link>
         <guid isPermaLink="true">http://localhost:4000/articles/2012-05/readability-post</guid>
         
@@ -513,7 +643,7 @@ There is a specific protocol for iterator, which is as follows:&lt;/p&gt;
 
 &lt;p class=&quot;notice&quot;&gt;&lt;strong&gt;Watch out!&lt;/strong&gt; You can also add notices by appending &lt;code class=&quot;highlighter-rouge&quot;&gt;{: .notice}&lt;/code&gt; to a paragraph.&lt;/p&gt;
 </description>
-        <pubDate>2019-02-07</pubDate>
+        <pubDate>2019-02-10</pubDate>
         <link>http://localhost:4000/articles/2011-03/sample-post</link>
         <guid isPermaLink="true">http://localhost:4000/articles/2011-03/sample-post</guid>
         

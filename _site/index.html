@@ -143,7 +143,7 @@
   <header class="post-header">
     <p class="post-meta">
       <span class="post-date">
-        7 FEB 2018
+        9 FEB 2019
       </span>
       
       •
@@ -154,7 +154,161 @@
       
     </p>
     <h4>
-      <a href="http://localhost:4000/articles/2018-02/first-post" class="post-title" title="Python Iterable &amp; Iterator">Python Iterable & Iterator</a>
+      <a href="http://localhost:4000/articles/2019-02/python-generator" class="post-title" title="Python Generator">Python Generator</a>
+      
+    </h4>
+
+    
+
+    </header>
+
+    
+    <div class="post-description">
+      <p>
+        <p>In this post, I would like to cover what python generator is.
+Before diving in more deeply, defining what “generator” is necessary, because the term “generator” is used to mean both “a function that generates an iterator” and “resulting iterator”.
+Here, I would like to use the term <code class="highlighter-rouge">generator</code> to mean a function which returns a generator object and <code class="highlighter-rouge">generator iterator</code> to mean an object created by a generator. (This is the official way of distinguishing these two.)
+According to the distinction, the following code snippet shows an example of <code class="highlighter-rouge">generator</code>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generator_example</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span></code></pre></figure>
+
+<p>And, “gen_iterator” in the code snippet below should be <code class="highlighter-rouge">generator iterator</code>.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">gen_iterator</span> <span class="o">=</span> <span class="n">generator_example</span><span class="p">()</span></code></pre></figure>
+
+<h3 id="what-is-generator">“What is generator?”</h3>
+
+<p>With the clear distinction above, generator is a function that generates an iterator.
+In the previous post, I explained that there is a protocol in iterator:</p>
+
+<p>1) <code class="highlighter-rouge">__next__()</code> should be implemented.</p>
+
+<p>2) At the end of a series, <code class="highlighter-rouge">StopIteration</code> should be raised.</p>
+
+<p>So, creating a custom iterator could be a cumbersome process.
+In this regard, <code class="highlighter-rouge">Generator</code> simplifies the creation of iterators. (much more convenient way of writing an iterator!)</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generator_example</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"Example of an generator"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">i</span></code></pre></figure>
+
+<p>Each time the <code class="highlighter-rouge">yield</code> statement is executed the function generates a new value.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; gen_example = generator_example()
+&gt;&gt;&gt; gen_example
+&lt;generator object generator_example at 0x10efecf00&gt;
+&gt;&gt;&gt; next(gen_example)
+Example of an generator
+0
+&gt;&gt;&gt; next(gen_example)
+1
+&gt;&gt;&gt; next(gen_example)
+2
+&gt;&gt;&gt; next(gen_example)
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre></div></div>
+
+<p>What is notable here is that the function is not executed until the <code class="highlighter-rouge">next</code> method gets called. 
+When <code class="highlighter-rouge">next</code> method is called for the first time, the function starts executing until it reaches <code class="highlighter-rouge">yield</code> statement.</p>
+
+<p>The following example shows the interplay between <code class="highlighter-rouge">yield</code> and call to <code class="highlighter-rouge">next</code> method on generator iterator.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">generator_example</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"before yield"</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">i</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"after yield"</span><span class="p">)</span></code></pre></figure>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; gen_example = generator_example()
+&gt;&gt;&gt; next(gen_example)
+before yield
+0
+&gt;&gt;&gt; next(gen_example)
+after yield
+before yield
+1
+&gt;&gt;&gt; next(gen_example)
+after yield
+before yield
+2
+&gt;&gt;&gt; next(gen_example)
+after yield
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+StopIteration
+</code></pre></div></div>
+
+<h3 id="generator-expressions">Generator Expressions</h3>
+
+<p>We can create a <code class="highlighter-rouge">generator iterator</code> with the following expression:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; gen_example = (i for i in range(5))
+&gt;&gt;&gt; gen_example
+&lt;generator object &lt;genexpr&gt; at 0x10ddbff00&gt;
+</code></pre></div></div>
+
+<p>The notable differences from list comprehensions are as follows:</p>
+<ul>
+  <li>It does not construct a list</li>
+  <li>Only useful purpose of it is iteration</li>
+  <li>Once consumed, it can’t be reused</li>
+</ul>
+
+<h3 id="generators-vs-iterators">Generators vs. Iterators</h3>
+
+<p>A <code class="highlighter-rouge">generator iterator</code> is different from <code class="highlighter-rouge">iterator</code> which is not created by <code class="highlighter-rouge">generator</code>.</p>
+
+<p>To be specific,</p>
+<ul>
+  <li>A generator is a one-time operation. You can iterate over the generated data once, but if you want to do it again, you have to call the generator function again.</li>
+  <li>This is different than a list (which you can iterate over as many times as you want)</li>
+</ul>
+
+<p>Here is the example:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt; generator_iterator = (i for i in range(5))
+&gt;&gt;&gt; generator_iterator
+&lt;generator object &lt;genexpr&gt; at 0x10ddbfeb0&gt;
+&gt;&gt;&gt; sum(generator_iterator)
+10
+&gt;&gt;&gt; sum(generator_iterator)
+0
+</code></pre></div></div>
+
+<h4 id="references">References:</h4>
+<ul>
+  <li>https://docs.python.org/3/glossary.html</li>
+  <li>https://anandology.com/python-practice-book/iterators.html</li>
+  <li>http://www.dabeaz.com/generators/Generators.pdf</li>
+</ul>
+
+      </p>
+    </div>
+    
+
+    
+
+</section>
+
+<section class="post">
+  <header class="post-header">
+    <p class="post-meta">
+      <span class="post-date">
+        7 FEB 2019
+      </span>
+      
+      •
+      
+        <a class="post-cat" href="http://localhost:4000/categories/#python">python</a>
+        
+      
+      
+    </p>
+    <h4>
+      <a href="http://localhost:4000/articles/2019-02/python-iterable-iterator" class="post-title" title="Python Iterable &amp; Iterator">Python Iterable & Iterator</a>
       
     </h4>
 
@@ -209,9 +363,8 @@ Unfortunately, however, I have not tried to understand these confusing concepts 
 
 <h3 id="then-what-is-iterator">Then, “What is iterator?”</h3>
 
-<p>We have just found out that as a result of passing <code class="highlighter-rouge">iterable</code> to <code class="highlighter-rouge">iter()</code> function <code class="highlighter-rouge">iterator</code> is generated.</p>
-
-<p>Then, how does <code class="highlighter-rouge">iterator</code> look like? How we can iterate over different iterators?
+<p>As we have seen so far, <code class="highlighter-rouge">iterator</code> is generated through passing <code class="highlighter-rouge">iterable</code> to <code class="highlighter-rouge">iter()</code> function.
+Then, what is the essence of <code class="highlighter-rouge">iterator</code>? How we can iterate over different iterators?
 There is a specific protocol for iterator, which is as follows:</p>
 
 <ul>
